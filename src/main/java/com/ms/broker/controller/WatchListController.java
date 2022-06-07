@@ -1,14 +1,11 @@
 package com.ms.broker.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.ms.broker.data.InMemoryAccountStore;
 import com.ms.broker.model.WatchList;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 
-import java.lang.reflect.AccessibleObject;
 import java.util.UUID;
 
 @Controller("/account/watchlist")
