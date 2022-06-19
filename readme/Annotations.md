@@ -17,6 +17,10 @@
 - @status(HttpStatus.NO_CONTENT)
 - @Body
 
-Testing annotation
+**Exception Handler**
+- @Produces
+- @Requires
+
+**Testing annotation**
 @MicronautTest
 @Client

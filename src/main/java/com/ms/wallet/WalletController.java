@@ -51,8 +51,15 @@ public record WalletController(InMemoryAccountStore store) {
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON
     )
-    public void withdrawFiatMoney(@Body WithdrawFiatMoney deposit) {
+    public HttpResponse<RestApiResponse> withdrawFiatMoney(@Body WithdrawFiatMoney withdraw) {
         //Option2: Custom Error Processing
+        if (!SUPPORTED_FIAT_CURRENCIES.contains(withdraw.symbol().value())) {
+            throw new FiatCurrencyNotSupportedException(String.format("Only %s are supported", SUPPORTED_FIAT_CURRENCIES));
+        }
+
+        var wallet = store.withdrawFromWallet(withdraw);
+        LOG.debug("Withdrawn from wallet {}", wallet);
+        return HttpResponse.ok().body(wallet);
 
     }
 

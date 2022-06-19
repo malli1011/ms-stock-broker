@@ -3,6 +3,7 @@ package com.ms.broker.data;
 import com.ms.broker.model.WatchList;
 import com.ms.wallet.DepositFiatMoney;
 import com.ms.wallet.Wallet;
+import com.ms.wallet.WithdrawFiatMoney;
 import jakarta.inject.Singleton;
 
 import java.math.BigDecimal;
@@ -39,6 +40,20 @@ public class InMemoryAccountStore {
         );
 
         var newWallet = oldWallet.addAvailable(deposit.amount());
+        wallets.put(newWallet.walletId(), newWallet);
+        walletsPerAccount.put(newWallet.accountId(), wallets);
+        return newWallet;
+    }
+
+
+    public Wallet withdrawFromWallet(WithdrawFiatMoney withdraw) {
+        final var wallets = Optional.ofNullable(
+                        walletsPerAccount.get(withdraw.accountId()))
+                .orElseThrow(() -> new RuntimeException("No Account available with given id: " + withdraw.accountId()));
+
+        var oldWallet = Optional.ofNullable(wallets.get(withdraw.walletId()))
+                .orElseThrow(() -> new RuntimeException("No Wallet available with given id: " + withdraw.walletId()));
+        var newWallet = oldWallet.minusAvailable(withdraw.amount());
         wallets.put(newWallet.walletId(), newWallet);
         walletsPerAccount.put(newWallet.accountId(), wallets);
         return newWallet;

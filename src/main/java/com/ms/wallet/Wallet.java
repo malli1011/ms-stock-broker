@@ -14,7 +14,7 @@ public record Wallet(
         BigDecimal locked
 ) implements RestApiResponse {
 
-    public Wallet addAvailable(BigDecimal amountToAdd){
+    public Wallet addAvailable(BigDecimal amountToAdd) {
         return new Wallet(
                 this.accountId,
                 this.walletId,
@@ -22,5 +22,18 @@ public record Wallet(
                 this.available.add(amountToAdd),
                 this.locked
         );
+    }
+
+    public Wallet minusAvailable(BigDecimal amountToWithdraw) {
+        if (amountToWithdraw.intValue() < this.available.intValue()) {
+            return new Wallet(
+                    this.accountId,
+                    this.walletId,
+                    this.symbol,
+                    this.available.subtract(amountToWithdraw),
+                    this.locked
+            );
+        }
+        throw new RuntimeException(String.format("No Sufficient funds to withdraw. Available balance %d", this.available.intValue()));
     }
 }
