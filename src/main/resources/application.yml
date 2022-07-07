@@ -1,7 +1,21 @@
 micronaut:
   application:
     name: msStockBroker
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: changeThisSecret
 netty:
   default:
     allocator:
       max-order: 3
+
+
+
+
+
+

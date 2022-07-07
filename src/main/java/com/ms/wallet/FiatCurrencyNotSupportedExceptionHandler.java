@@ -8,8 +8,6 @@ import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
 import jakarta.inject.Singleton;
 
-import static com.ms.wallet.WalletController.SUPPORTED_FIAT_CURRENCIES;
-
 @Singleton
 @Produces
 @Requires(classes = {FiatCurrencyNotSupportedException.class, ExceptionHandler.class})
